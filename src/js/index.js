@@ -5,7 +5,7 @@ import Search from "./model/search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
-import { renderRecipe, clearRecipe } from "./view/recipeView";
+import { renderRecipe, clearRecipe, highLightSelectedRecipe } from "./view/recipeView";
 /**
  * Web app state
  * - Search query, result
@@ -84,6 +84,7 @@ const controlRecipe = async() => {
     //3. Prepare and clear UI.
     clearRecipe();
     renderLoader(elements.recipeDiv);
+    highLightSelectedRecipe(id);
     
     //4. Get recipe.
     await state.recipe.getRecipe();

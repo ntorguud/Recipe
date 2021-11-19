@@ -11,22 +11,33 @@ const renderNairlaga = orts => `
             </div>
     </li>`;
 
+export const highLightSelectedRecipe = id => {
+    const arr = Array.from(document.querySelectorAll(".results__list"));
+
+    arr.forEach(el => el.classList.remove("results__link--active"));
+
+    const domObject = document.querySelector(`a[href*="${id}"]`);
+    
+    if(domObject) domObject.classList.add ("results__link--active");
+    //results__link--active
+};
+
 export const clearRecipe = () => {
     //Odoo delgets deer haragdaj bgaa recipe-g delgetsees arilgana.
     elements.recipeDiv.innerHTML = "";
 };
 
 export const renderRecipe = () => {
-    //Eene haragdaj bgaa daraagiin recipe-g delgets deer uzuulne.
+    //Ene haragdaj bgaa daraagiin recipe-g delgets deer uzuulne.
     const html = `
-    <figure class="recipe__fig">
-    <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe__img">
-    <h1 class="recipe__title">
-        <span>${recipe.title}</span>
-    </h1>
-</figure>
-<div class="recipe__details">
-    <div class="recipe__info">
+        <figure class="recipe__fig">
+        <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe__img">
+        <h1 class="recipe__title">
+            <span>${recipe.title}</span>
+        </h1>
+        </figure>
+        <div class="recipe__details">
+        <div class="recipe__info">
         <svg class="recipe__info-icon">
             <use href="img/icons.svg#icon-stopwatch"></use>
         </svg>
