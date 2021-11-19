@@ -6,11 +6,11 @@ const renderRecipe = recipe => {
     const markup = `
         <li>
             <a class="results__link" href="#${recipe.recipe_id}">
-            <figure class="results__fig"><img src="img/${recipe.image_url}" alt="Test"></figure>
-            <div class="results__data">
+                <figure class="results__fig"><img src="img/${recipe.image_url}" alt="Test"></figure>
+                <div class="results__data">
                 <h4 class="results__name">${recipe.title}</h4>
                 <p class="results__author">${recipe.publisher}</p>
-            </div>
+                </div>
             </a>
         </li>`;
         //ul ruu nemne.
@@ -24,13 +24,6 @@ export const clearSearchResult = () => {
     elements.pageButtons.innerHTML = "";
 };
 export const getInput = () => elements.searchInput.value;
-
-const createButton = (page, type, direction) => `<button class="btn-inline results__btn--${type}">
-        <svg class="search__icon">
-            <use href="img/icons.svg#icon-triangle-${direction} data-goto=${page}"></use>
-        </svg>
-        <span>Хуудас ${page}</span>
-        </button>`;
 
 export const renderRecipes = (recipes, currentPage = 1, resultPerPage = 10) => {
     //Hailtiin ur dung huudaslaj uzuuleh
@@ -46,10 +39,17 @@ export const renderRecipes = (recipes, currentPage = 1, resultPerPage = 10) => {
     renderButtons(currentPage, totalPages);
 };
 
+const createButton = (page, type, direction) => `<button class="btn-inline results__btn--${type}" data-goto=${page}>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${direction}"></use>
+        </svg>
+        <span>Хуудас ${page}</span>
+        </button>`;
+
 const renderButtons = (currentPage, totalPages) => {
     let buttonHTML;
 
-    if(currentPage ===1 && totalPages > 1) {
+    if(currentPage === 1 && totalPages > 1) {
         //You're on the 1st page, show 2nd page button.
         buttonHTML = createButton(2, `next`, `right`, 2);
 

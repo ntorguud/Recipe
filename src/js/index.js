@@ -16,6 +16,9 @@ import { renderRecipe, clearRecipe, highLightSelectedRecipe } from "./view/recip
 
 const state = {};
 
+
+
+
 /**
  * Search controller
  * Model ==> Controller <== View
@@ -26,7 +29,6 @@ const state = {};
 const controlSearch = async() => {
     //1. Web-ees hailtiin key wordiiig gargarj avna.
     const query = searchView.getInput();
-
 
     if(query) {
         //2. New hailtiin object uusgej, state ruu search object hiine.
@@ -42,9 +44,11 @@ const controlSearch = async() => {
     
         //5. Show result into the display.
         clearLoader();
-        if(state.search.result !== undefined) {
+        if(state.search.result === undefined) {
+            alert(`Hailtaar ilertsgui.`)
+        } else {
             searchView.renderRecipes(state.search.result);
-        } else {alert(`Hailtaar ilertsgui.`)};
+        };
     }
 };
 
