@@ -45,3 +45,14 @@ elements.searchForm.addEventListener("submit", e => {
     e.preventDefault();
     controlSearch();
 });
+
+elements.pageButtons.addEventListener("click", e => {
+    // e.target bol clicked btn-iig oldog.
+    const btn = e.target.closest(".btn-inline");
+
+    if(btn) {
+        const gotoPageNumber = parseInt(btn.dataset.goto, 10);
+        searchView.clearSearchResult();
+        searchView.renderRecipes(state.search.result, gotoPageNumber);
+    }
+});
