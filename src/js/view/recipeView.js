@@ -4,15 +4,15 @@ import { elements } from "./base";
 const renderNairlaga = orts => `
     <li class="recipe__item">
         <svg class="recipe__icon">
-        <use href="img/icons.svg#icon-check"></use>
-                        </svg>
-            <div class="recipe__ingredient">
-                <span class="recipe__unit">g</span>${orts}
-            </div>
+            <use href="img/icons.svg#icon-check"></use>
+        </svg>
+        <div class="recipe__ingredient">
+            ${orts}
+        </div>
     </li>`;
 
 export const highLightSelectedRecipe = id => {
-    const arr = Array.from(document.querySelectorAll(".results__list"));
+    const arr = Array.from(document.querySelectorAll(".results__link"));
 
     arr.forEach(el => el.classList.remove("results__link--active"));
 
@@ -31,10 +31,10 @@ export const renderRecipe = () => {
     //Ene haragdaj bgaa daraagiin recipe-g delgets deer uzuulne.
     const html = `
         <figure class="recipe__fig">
-        <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe__img">
-        <h1 class="recipe__title">
+            <img src="${recipe.image_url}" alt="${recipe.title}" class="recipe__img">
+            <h1 class="recipe__title">
             <span>${recipe.title}</span>
-        </h1>
+            </h1>
         </figure>
         <div class="recipe__details">
         <div class="recipe__info">
@@ -48,8 +48,8 @@ export const renderRecipe = () => {
         <svg class="recipe__info-icon">
             <use href="img/icons.svg#icon-man"></use>
         </svg>
-        <span class="recipe__info-data recipe__info-data--people">4</span>
-        <span class="recipe__info-text">${recipe.portion}</span>
+        <span class="recipe__info-data recipe__info-data--people">${recipe.portion}</span>
+        <span class="recipe__info-text"> хүний орц</span>
 
         <div class="recipe__info-buttons">
             <button class="btn-tiny">
