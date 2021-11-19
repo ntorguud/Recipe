@@ -1,7 +1,9 @@
 /// MVC -Model, View, Controller Archictecture
 /// No fetch(); today
 require("@babel/polyfill");
-import Search from "./model/search";
+import search from "./model/search";
+import { elements } from "./view/base";
+import * as searchView from "./view/searchView";
 
 /**
  * Web app state
@@ -15,7 +17,7 @@ const state = {};
 
 const controlSearch = async() => {
     //1. Web-ees hailtiin key wordiiig gargarj avna.
-    const query = "pizza";
+    const query = searchView.getInput();
 
 
     if(query) {
@@ -23,18 +25,21 @@ const controlSearch = async() => {
         state.search = new Search(query);
 
         //3. Hailt hiihed zoriulj UI-iig beldene.
-
+        searchView.clearSearchQuery();
+        searchView.clearSearchResult();
 
         //4. Execute search
         await state.search.doSearch();
     
         //5. Show result into the display.
-        console.log(state.search.result);
+        if(state.search.result !== undefined) {
+            searchView.renderRecipes(state.search.result);
+        } else {alert(`Hailtaar ilertsgui.`)};
     }
 };
 
 //Let's connect event listener
-document.querySelector(".search").addEventListener("submit", e => {
+elements.searchForm.addEventListener("submit", e => {
     e.preventDefault();
     controlSearch();
 });
