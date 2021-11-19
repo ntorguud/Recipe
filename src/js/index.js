@@ -2,7 +2,7 @@
 /// No fetch(); today
 require("@babel/polyfill");
 import search from "./model/search";
-import { elements } from "./view/base";
+import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
 
 /**
@@ -27,11 +27,13 @@ const controlSearch = async() => {
         //3. Hailt hiihed zoriulj UI-iig beldene.
         searchView.clearSearchQuery();
         searchView.clearSearchResult();
+        renderLoader(elements.searchResultDiv);
 
         //4. Execute search
         await state.search.doSearch();
     
         //5. Show result into the display.
+        clearLoader();
         if(state.search.result !== undefined) {
             searchView.renderRecipes(state.search.result);
         } else {alert(`Hailtaar ilertsgui.`)};
