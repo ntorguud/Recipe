@@ -1,10 +1,10 @@
 /// MVC -Model, View, Controller Archictecture
 /// No fetch(); today
 require("@babel/polyfill");
-import search from "./model/search";
+import Search from "./model/search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
-
+import Recipe from "./model/recipe";
 /**
  * Web app state
  * - Search query, result
@@ -56,3 +56,7 @@ elements.pageButtons.addEventListener("click", e => {
         searchView.renderRecipes(state.search.result, gotoPageNumber);
     }
 });
+
+const r = new recipe(47746);
+
+r.getPrcipe();
