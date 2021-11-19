@@ -1,10 +1,11 @@
 /// MVC -Model, View, Controller Archictecture
-/// No fetch(); today
+/// No fetch() today, instead use axios
 require("@babel/polyfill");
 import Search from "./model/search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
+import { renderRecipe, clearRecipe } from "./view/recipeView";
 /**
  * Web app state
  * - Search query, result
@@ -14,6 +15,13 @@ import Recipe from "./model/recipe";
  */
 
 const state = {};
+
+/**
+ * Search controller
+ * Model ==> Controller <== View
+ * 
+ */
+
 
 const controlSearch = async() => {
     //1. Web-ees hailtiin key wordiiig gargarj avna.
@@ -57,6 +65,36 @@ elements.pageButtons.addEventListener("click", e => {
     }
 });
 
-const r = new recipe(47746);
 
-r.getPrcipe();
+
+
+
+
+/**
+ * Recipe controller
+ * 
+ */
+const controlRecipe = async() => {
+    //1. Split ID from URL.
+    const id = window.location.hash.replace("#", "");
+
+    //2. Create recipe model.
+    state.recipe = new Recipe(id);
+
+    //3. Prepare and clear UI.
+    clearRecipe();
+    renderLoader(elements.recipeDiv);
+    
+    //4. Get recipe.
+    await state.recipe.getRecipe();
+
+    //5. Calculate cooking time and prepare ingredients
+    clearLoader();
+    state.recipe.calculateTime();
+    state.recipe.calculatePortion();
+
+    //6. Show recipe to UI.
+    renderRecipe(state.recipe);
+}
+window.addEventListener("hashchange", controlRecipe);
+window.addEventListener("load", controlRecipe);

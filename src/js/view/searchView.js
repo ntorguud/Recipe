@@ -5,8 +5,8 @@ import { elements } from "./base";
 const renderRecipe = recipe => {
     const markup = `
         <li>
-            <a class="results__link" href="#${recipe.id}">
-            <figure class="results__fig"><img src="img/${recipe.img_url}" alt="Test"></figure>
+            <a class="results__link" href="#${recipe.recipe_id}">
+            <figure class="results__fig"><img src="img/${recipe.image_url}" alt="Test"></figure>
             <div class="results__data">
                 <h4 class="results__name">${recipe.title}</h4>
                 <p class="results__author">${recipe.publisher}</p>

@@ -16,4 +16,14 @@ export default class Recipe {
         this.title = result.data.recipe.title;
         this.social_rank = result.data.recipe.social_rank;
     }
+
+    calculateTime() {
+        //this.ingredients.length === dotor n bgaa nairlagiin too
+        // Ingedients burt 5 min zartsuulna gej uzey.
+        this.time = this.ingredients.length * 5;
+    }
+    
+    calculatePortion() {
+        this.portion = 4;
+    }
 };
