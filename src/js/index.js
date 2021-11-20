@@ -6,6 +6,9 @@ import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from "./view/searchView";
 import Recipe from "./model/recipe";
 import { renderRecipe, clearRecipe, highLightSelectedRecipe } from "./view/recipeView";
+import List from "./model/list";
+import * as listView from "./view/listView";
+
 /**
  * Web app state
  * - Search query, result
@@ -82,24 +85,57 @@ const controlRecipe = async() => {
     //1. Split ID from URL.
     const id = window.location.hash.replace("#", "");
 
-    //2. Create recipe model.
-    state.recipe = new Recipe(id);
+    //URL deer ID baigaa esehiig shalgana.
+    if(id) {
+        //2. Create recipe model.
+        state.recipe = new Recipe(id);
 
-    //3. Prepare and clear UI.
-    clearRecipe();
-    renderLoader(elements.recipeDiv);
-    highLightSelectedRecipe(id);
+        //3. Prepare and clear UI.
+        clearRecipe();
+        renderLoader(elements.recipeDiv);
+        highLightSelectedRecipe(id);
     
-    //4. Get recipe.
-    await state.recipe.getRecipe();
+        //4. Get recipe.
+        await state.recipe.getRecipe();
 
-    //5. Calculate cooking time and prepare ingredients
-    clearLoader();
-    state.recipe.calculateTime();
-    state.recipe.calculatePortion();
+        //5. Calculate cooking time and prepare ingredients
+        clearLoader();
+        state.recipe.calculateTime();
+        state.recipe.calculatePortion();
 
-    //6. Show recipe to UI.
-    renderRecipe(state.recipe);
-}
-window.addEventListener("hashchange", controlRecipe);
-window.addEventListener("load", controlRecipe);
+        //6. Show recipe to UI.
+        renderRecipe(state.recipe);
+    }
+};
+
+// window.addEventListener("hashchange", controlRecipe);
+// window.addEventListener("load", controlRecipe);
+
+["hashchange", "load"].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+
+
+/**
+ * Ingredients' controller
+ */
+
+const controlList = () => {
+    //1. Ingredients model uusgene.
+    state.list = new List();
+    //Umnu n haragdaj bsan itemsiig delgetsees tseverlene.
+    listView.clearItems();
+
+    //2. Ug model ruu odoo haragdaj bgaa recipe-nii buh ingredients-iig avch hiine. Odoo garj bgaa recipe bol door bga path ym.
+    //state.list
+    state.recipe.ingredients.forEach(n => {
+        //Tuhain ingredientiig model ruu hiine.
+        state.list.addItem(n);
+        //Tuhain ingredientiig delgetsend gargana.
+        listView.renderItem(n);
+    });
+};
+
+elements.recipeDiv.addEventListener("click", e => {
+    if(e.target.matches(".recipe__btn, .recipe__btn *")) controlList();
+});
