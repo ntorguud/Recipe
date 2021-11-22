@@ -1,6 +1,9 @@
 export default class Likes {
     constructor() {
-        this.likes = [];
+        //Local Storage deer hadgalsan zuilsiig duudna.
+        this.readDataFromLocalStorage();
+
+        if(!this.likes) this.likes = [];
     }
 
     addLike(id, title, publisher, img) {
@@ -8,6 +11,10 @@ export default class Likes {
         const like = {id, title, publisher, img};
 
         this.likes.push(like);
+
+        //Storage ruu hadgalna.
+        this.saveDataToLocalStorage();
+
         return like;
     }
 
@@ -17,6 +24,9 @@ export default class Likes {
 
         //2. Ug index deerh elementiig array-s ustgana.
         this.likes.splice(index, 1);
+
+        //Storage ruu hadgalna.
+        this.saveDataToLocalStorage();
     }
 
     isLiked(id) {
@@ -32,5 +42,15 @@ export default class Likes {
 
     getNumberOfLikes() {
         return this.likes.length;
+    }
+
+    saveDataToLocalStorage() {
+        localStorage.setItem("Likes", JSON.stringify(this.likes));
+        //Array-g JSON string bolgoj huvirgadag.
+    }
+
+    readDataFromLocalStorage() {
+        ///Erguulj Local storage-aas hadgalsan like-uudaa duudahdaa JSON.stringify hiij bolgoson stringee JSON.parse-aar erguuleed array bolgono.
+        this.likes = JSON.parse(localStorage.getItem("likes"));
     }
 };

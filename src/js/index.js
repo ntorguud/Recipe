@@ -20,10 +20,6 @@ import * as likeView from "./view/likeView";
  */
 
 const state = {}; 
-//Like menug haruulahgui
-likeView.toggleLikeMenu(0);
-
-
 
 
 
@@ -90,9 +86,6 @@ const controlRecipe = async() => {
     //1. Split ID from URL.
     const id = window.location.hash.replace("#", "");
 
-    if(!state.likes /* state.likes === false */)
-    state.likes = new Likes();
-
     //URL deer ID baigaa esehiig shalgana.
     if(id) {
         //2. Create recipe model.
@@ -120,6 +113,18 @@ const controlRecipe = async() => {
 // window.addEventListener("load", controlRecipe);
 
 ["hashchange", "load"].forEach(event => window.addEventListener(event, controlRecipe));
+
+window.addEventListener("load", e => {
+    //Shineer like modeliig app dunguj achaalagdahad uusgene.
+    if(!state.likes /* state.likes === false */)
+    state.likes = new Likes();
+
+    //Like menug gargah esehiig shiidne.
+    likeView.toggleLikeMenu(state.likes.getNumberOfLikes());
+
+    //Like-uud bval tedgeeriig menu-nd nemj haruulna.
+    state.likes.likes.forEach(like => likeView.renderLikeList(like));
+});
 
 
 
