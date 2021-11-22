@@ -8,6 +8,7 @@ import Recipe from "./model/recipe";
 import { renderRecipe, clearRecipe, highLightSelectedRecipe } from "./view/recipeView";
 import List from "./model/list";
 import * as listView from "./view/listView";
+import Likes from "./model/like";
 
 /**
  * Web app state
@@ -136,8 +137,48 @@ const controlList = () => {
     });
 };
 
+
+
+
+/**
+ * Sagsand hiih button ba Like Controller
+ */
+const controlLike = () => {
+    //1. Liked modeliig uusgene.
+    if(!state.likes /* state.likes === false */)
+    state.likes = new Likes();
+
+    //2. Daragdsan recipe-g avch liked model ruu hiih
+    
+    //3. Odoo haragdaj bgaa recipe.n id-g olj avah
+    const currentRecipeId = state.recipe.id;
+
+    //4. Ene joriig likedsan esehiig check hiih
+    if(state.likes.isLiked(currentRecipeId)) {
+        //If liked, press heart to unlike.
+        state.likes.deleteLike(currentRecipeId);
+
+    } else {
+         //If unlike, press heart to like.
+         state.likes.addLike(
+             currentRecipeId, 
+             state.recipe.title, 
+             state.recipe.publisher, state.recipe.image_url
+             );
+    }
+
+    //5. If liked, press heart again to unlike. Else if it's not liked, press to like
+    
+    
+     
+};
+
 elements.recipeDiv.addEventListener("click", e => {
-    if(e.target.matches(".recipe__btn, .recipe__btn *")) controlList();
+    if(e.target.matches(".recipe__btn, .recipe__btn *")) {
+        controlList();
+    } else if(e.target.matches(".recipe__love, recipe__love *")) {
+        controlLike();
+    }
 });
 
 elements.shoppingList.addEventListener("click", e =>  {
