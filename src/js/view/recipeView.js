@@ -16,7 +16,7 @@ export const highLightSelectedRecipe = id => {
 
     arr.forEach(el => el.classList.remove("results__link--active"));
 
-    const domObject = document.querySelector(`a[href*="${id}"]`);
+    const domObject = document.querySelector(`.results__link[href*="${id}"]`);
     
     if(domObject) domObject.classList.add ("results__link--active");
     //results__link--active
@@ -27,7 +27,7 @@ export const clearRecipe = () => {
     elements.recipeDiv.innerHTML = "";
 };
 
-export const renderRecipe = () => {
+export const renderRecipe = (recipe, isLiked) => {
     //Ene haragdaj bgaa daraagiin recipe-g delgets deer uzuulne.
     const html = `
         <figure class="recipe__fig">
@@ -67,7 +67,7 @@ export const renderRecipe = () => {
     </div>
     <button class="recipe__love">
         <svg class="header__likes">
-            <use href="img/icons.svg#icon-heart-outlined"></use>
+            <use href="img/icons.svg#icon-heart${isLiked ? "" : "-outlined"}"></use>
         </svg>
     </button>
 </div>
