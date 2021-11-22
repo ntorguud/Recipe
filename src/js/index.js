@@ -9,6 +9,7 @@ import { renderRecipe, clearRecipe, highLightSelectedRecipe } from "./view/recip
 import List from "./model/list";
 import * as listView from "./view/listView";
 import Likes from "./model/like";
+import * as likeView from "./view/likeView";
 
 /**
  * Web app state
@@ -18,7 +19,10 @@ import Likes from "./model/like";
  * - Ingredients of selected recipe
  */
 
-const state = {};
+const state = {}; 
+//Like menug haruulahgui
+likeView.toggleLikeMenu(0);
+
 
 
 
@@ -86,6 +90,9 @@ const controlRecipe = async() => {
     //1. Split ID from URL.
     const id = window.location.hash.replace("#", "");
 
+    if(!state.likes /* state.likes === false */)
+    state.likes = new Likes();
+
     //URL deer ID baigaa esehiig shalgana.
     if(id) {
         //2. Create recipe model.
@@ -105,7 +112,7 @@ const controlRecipe = async() => {
         state.recipe.calculatePortion();
 
         //6. Show recipe to UI.
-        renderRecipe(state.recipe);
+        renderRecipe(state.recipe, state.likes.isLiked(id));
     }
 };
 
@@ -141,7 +148,9 @@ const controlList = () => {
 
 
 /**
- * Sagsand hiih button ba Like Controller
+ * Sagsand hiih button ba 
+ * 
+ * Like Controller
  */
 const controlLike = () => {
     //1. Liked modeliig uusgene.
@@ -158,19 +167,30 @@ const controlLike = () => {
         //If liked, press heart to unlike.
         state.likes.deleteLike(currentRecipeId);
 
+        // Haragdaj bgaa like-iin menu-s ustgana.
+        likeView.deleteLike(currentRecipeId);
+
+        //Like btn-ii haragdah liked bdliig boliulna.
+        likeView.toggleLikeBtn(false);
+
     } else {
          //If unlike, press heart to like.
-         state.likes.addLike(
+         const newLike = state.likes.addLike(
              currentRecipeId, 
              state.recipe.title, 
              state.recipe.publisher, state.recipe.image_url
              );
+
+        //Like menu-nd ene new like-iig oruulah
+        likeView.renderLikeList(newLike);
+
+        //Liked bgaa btn-ii haragdah bdliig unlike bolgoh
+        likeView.toggleLikeBtn(true);
     }
 
+    likeView.toggleLikeMenu(state.likes.getNumberOfLikes());
+
     //5. If liked, press heart again to unlike. Else if it's not liked, press to like
-    
-    
-     
 };
 
 elements.recipeDiv.addEventListener("click", e => {
