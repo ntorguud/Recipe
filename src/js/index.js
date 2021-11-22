@@ -130,12 +130,23 @@ const controlList = () => {
     //state.list
     state.recipe.ingredients.forEach(n => {
         //Tuhain ingredientiig model ruu hiine.
-        state.list.addItem(n);
+        const item = state.list.addItem(n);
         //Tuhain ingredientiig delgetsend gargana.
-        listView.renderItem(n);
+        listView.renderItem(item);
     });
 };
 
 elements.recipeDiv.addEventListener("click", e => {
     if(e.target.matches(".recipe__btn, .recipe__btn *")) controlList();
+});
+
+elements.shoppingList.addEventListener("click", e =>  {
+    ///Click hiisen li elementiin data-itemid attribute-iig shuuj gargaj avaad Uniqid-g olloo.
+    const id = e.target.closest(".shopping__item").dataset.itemid;
+
+    //Oldson id-tai ortsiig modeloos ustgana.
+    state.list.deleteItemBasket(id);
+
+    //Delgetsees iim id-tai ortsiig bas olj ustgana.
+    listView.deleteItemBasket(id);
 });
